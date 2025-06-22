@@ -13,15 +13,28 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
+    if (!element) throw new Error('Элемент формы не передан!');
 
+    this.element = element;
+    this.registerEvents();
   }
+
 
   /**
    * Необходимо запретить отправку формы и в момент отправки
    * вызывает метод submit()
    * */
   registerEvents() {
+    this.element.addEventListener('submit', event => {
+      event.preventDefault(); 
 
+      const formData = new FormData(event.target);
+      let data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      this.submit(data);
+    });
   }
 
   /**
@@ -32,18 +45,21 @@ class AsyncForm {
    * }
    * */
   getData() {
-
+    const fields = Array.from(this.element.querySelectorAll('[name][value]'));
+    return fields.reduce((result, field) => {
+      result[field.name] = field.value.trim(); 
+      return result;
+    }, {});
   }
 
-  onSubmit(options){
-
+  onSubmit(){
   }
 
   /**
    * Вызывает метод onSubmit и передаёт туда
    * данные, полученные из метода getData()
    * */
-  submit() {
-
+  submit(data) {
+    this.onSubmit(data); 
   }
 }

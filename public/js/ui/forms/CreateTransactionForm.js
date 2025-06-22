@@ -8,7 +8,8 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor(element) {
-    super(element)
+    super(element); 
+    this.renderAccountsList(); 
   }
 
   /**
@@ -16,7 +17,34 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
-
+    Account.list({ user_id: User.current}, (err, response) => {
+      if (err) {
+        console.error('Ошибка при загрузке счетов:', err);
+        return;
+      }
+  
+      if (!Array.isArray(response.data)) {
+        console.error('Сервер вернул неподходящий формат данных:', response);
+        return;
+      }
+  
+     
+      const selectElement = this.element.querySelector('#account-select, #income-accounts-list, #expense-accounts-list');
+  
+      if (!selectElement) {
+        console.error('Элемент селекта не найден.');
+        return;
+      }
+  
+      selectElement.innerHTML = '';
+  
+      response.data.forEach(account => {
+        const option = document.createElement('option');
+        option.value = account.id;
+        option.textContent = `${account.name}`;
+        selectElement.appendChild(option);
+      });
+    });
   }
 
   /**
@@ -26,6 +54,20 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
+    const transactionType =
+    this.element.id === 'new-income-form' ? 'income' : 'expense';
 
-  }
+  data.type = transactionType;
+
+  Transaction.create(data, (err, response) => {
+    if (err) {
+      console.error('Ошибка при создании транзакции:', err);
+      console.log('Возникла ошибка при создании транзакции.'); 
+      return;
+    }
+    App.update(); 
+  });
+  const modal = App.getModal('newIncome');
+  modal.close();
+}
 }

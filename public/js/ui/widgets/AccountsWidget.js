@@ -47,10 +47,8 @@ class AccountsWidget {
   }
   
   onOpenModalNewAccount() {
-    const modal = document.getElementById('modal-new-account');
-    if (modal) {
-      modal.style.display = 'block';
-    }
+    const modal = App.getModal('createAccount'); 
+      modal.open()
   }
 
   /**

@@ -37,7 +37,7 @@ class TransactionsPage {
     this.element.addEventListener('click', event => {
       if (event.target.classList.contains('transaction__remove')) {
         const transactionId = event.target.dataset.id;
-        this.removeTransaction(parseInt(transactionId));
+        this.removeTransaction(transactionId);
       }
     });
   
@@ -82,14 +82,13 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id) {
-    console.log(id)
     if (confirm('Вы действительно хотите удалить эту транзакцию?')) {
       Transaction.remove(id, err => {
         if (err) {
           console.log('Ошибка при удалении транзакции!');
           return;
         }
-        this.update(); // 👈 Перерисовываем страницу после успешного удаления
+        this.update();
       });
     }
   }
@@ -187,8 +186,8 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions(responseData) {
-    const data = responseData.data; 
-
+    const data = responseData && Array.isArray(responseData.data) ? responseData.data : [];
+    
     this.contentSection.innerHTML = '';
     data.forEach(item => {
         const html = this.getTransactionHTML(item);

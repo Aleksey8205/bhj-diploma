@@ -37,10 +37,10 @@ class User {
   static fetch(callback) {
     createRequest({
       method: "GET",
-      url: this.URL + "/current",
+      url: `${this.URL}/current`,
       callback: (err, response) => {
         if (err) {
-          return callback(err); 
+          return callback(err);
         }
         if (response && response.success && response.user) {
           this.setCurrent(response.user);
@@ -60,15 +60,12 @@ class User {
    * */
   static login(data, callback) {
     if (!data.email || !data.password) {
-      console.log(data)
-        return callback(new Error('Email и пароль необходимы для авторизации.'));
+      return callback(new Error('Email и пароль необходимы для авторизации.'));
     }
 
-  
     createRequest({
       method: "POST",
-      url: this.URL + "/login",
-      responseType: "json",
+      url: `${this.URL}/login`,
       data: data,
       callback: (err, response) => {
         if (err) {
@@ -82,7 +79,7 @@ class User {
         }
       },
     });
-}
+  }
 
   /**
    * Производит попытку регистрации пользователя.
@@ -92,9 +89,9 @@ class User {
    * */
   static register(data, callback) {
     createRequest({
-      url: this.URL + "/register",
+      url: `${this.URL}/register`,
       method: "POST",
-      data,
+      data: data,
       callback: (err, response) => {
         if (response && response.success && response.user) {
           this.setCurrent(response.user);
@@ -110,19 +107,17 @@ class User {
    * */
   static logout(callback) {
     createRequest({
-      url: this.URL + "/logout",
+      url: `${this.URL}/logout`,
       method: "POST",
       callback: (err, response) => {
-
-          if (response && response.success) {
-              User.unsetCurrent();
-              App.setState('init');                        
-              callback(null, response);     
-          } else {
-              console.error('Ошибка выхода:', err || response);
-              callback(err || new Error('Ошибка выхода'), response); 
-          }
+        if (response && response.success) {
+          this.unsetCurrent(); 
+          callback(null, response);
+        } else {
+          console.error('Ошибка выхода:', err || response);
+          callback(err || new Error('Ошибка выхода'), response);
+        }
       },
-  });
-}
+    });
+  }
 }

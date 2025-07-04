@@ -17,19 +17,29 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
-    Account.list({ user_id: User.current}, (err, response) => {
+    const formId = this.element.id;
+
+    Account.list({ user_id: User.current }, (err, response) => {
       if (err) {
         console.error('Ошибка при загрузке счетов:', err);
         return;
       }
+
   
-      if (!Array.isArray(response.data)) {
-        console.error('Сервер вернул неподходящий формат данных:', response);
-        return;
+      let selector;
+      switch (formId) {
+        case 'new-expense-form':
+          selector = '#expense-accounts-list'; 
+          break;
+        case 'new-income-form':
+          selector = '#income-accounts-list'; 
+          break;
+        default:
+          console.error('Неверный идентификатор формы');
+          return;
       }
   
-     
-      const selectElement = this.element.querySelector('#account-select, #income-accounts-list, #expense-accounts-list');
+      const selectElement = this.element.querySelector(selector);
   
       if (!selectElement) {
         console.error('Элемент селекта не найден.');
@@ -38,12 +48,11 @@ class CreateTransactionForm extends AsyncForm {
   
       selectElement.innerHTML = '';
   
-      response.data.forEach(account => {
-        const option = document.createElement('option');
-        option.value = account.id;
-        option.textContent = `${account.name}`;
-        selectElement.appendChild(option);
-      });
+      selectElement.innerHTML = response.data.reduce(
+        (html, account) =>
+          html + `<option value="${account.id}">${account.name}</option>`,
+        ''
+      );
     });
   }
 
@@ -54,20 +63,22 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-    const transactionType =
-    this.element.id === 'new-income-form' ? 'income' : 'expense';
-
-  data.type = transactionType;
-
-  Transaction.create(data, (err, response) => {
-    if (err) {
-      console.error('Ошибка при создании транзакции:', err);
-      console.log('Возникла ошибка при создании транзакции.'); 
-      return;
-    }
-    App.update(); 
-  });
-  const modal = App.getModal('newIncome');
-  modal.close();
-}
+    const transactionType = this.element.id === 'new-income-form' ? 'income' : 'expense';
+    data.type = transactionType;
+  
+    Transaction.create(data, (err, response) => {
+      if (err) {
+        console.error('Ошибка при создании транзакции:', err);
+        return;
+      }
+      
+      App.update();
+  
+      const modalKey = this.element.id.includes('income') ? 'newIncome' : 'newExpense';
+      const modal = App.getModal(modalKey);
+      if (modal) {
+        modal.close();
+      }
+    });
+  }
 }

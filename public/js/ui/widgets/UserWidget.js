@@ -27,10 +27,6 @@ class UserWidget {
    * */
   update(){
     const currentUser = User.current();
-    if (currentUser) {
-      this.userNameElement.textContent = currentUser.name;
-    } else {
-      this.userNameElement.textContent = ''; 
-    }
+    this.userNameElement.textContent = currentUser ? currentUser.name : '';
   }
 }

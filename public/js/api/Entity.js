@@ -4,18 +4,14 @@
  * */
 class Entity {
 
-  constructor() {}
-
-  static get URL() {
-    return "";
-  }
+  static URL = "";
+  
   /**
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list(data, callback) {
-    data.account_id
     createRequest({
       url: this.URL,
       method: 'GET',
@@ -30,7 +26,6 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create(data, callback) {
-    data.account_id = data.account_id;
     createRequest({
     url: this.URL, 
     method: 'PUT',
@@ -43,11 +38,12 @@ class Entity {
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static remove(data, callback) {
+  static remove(id, callback) {
     createRequest({
-      url: `${this.URL}/${data}`, 
-      method: 'DELETE',
-      callback: callback
+      url: `${this.URL}`,
+      method: 'DELETE',   
+      data: { id },      
+      callback: callback  
     });
   }
 }

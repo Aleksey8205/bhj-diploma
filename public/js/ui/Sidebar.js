@@ -36,9 +36,9 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    const loginLink = document.querySelector('.login-link');
-    const registrationLink = document.querySelector('.registration-link');
-    const logoutLink = document.querySelector('.logout-link');
+    const loginLink = document.querySelector('.menu-item_login');
+    const registrationLink = document.querySelector('.menu-item_register');
+    const logoutLink = document.querySelector('.menu-item_logout');
   
     if (loginLink) {
       loginLink.addEventListener('click', (event) => {
@@ -51,7 +51,7 @@ class Sidebar {
     if (registrationLink) {
       registrationLink.addEventListener('click', (event) => {
         event.preventDefault();
-        const modalRegistration = App.getModal('registration'); 
+        const modalRegistration = App.getModal('register'); 
         modalRegistration.open(); 
       });
     }
@@ -59,8 +59,10 @@ class Sidebar {
     if (logoutLink) {
       logoutLink.addEventListener('click', (event) => {
         event.preventDefault();
-        User.logout((err, response) => { 
-          if (response.success) {
+        User.logout((err) => { 
+          if (err) {
+            console.error('Ошибка выхода:', err);
+          } else {
             App.setState('init'); 
           }
         });

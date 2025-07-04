@@ -9,103 +9,17 @@
   ],
   "accounts": [
     {
-      "name": "Банк",
-      "user_id": "1",
-      "id": "1"
-    },
-    {
-      "name": "Магазин",
-      "user_id": "1",
-      "id": "2"
-    },
-    {
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "name": "тест",
+      "user_id": "1",
+      "id": "8d0rgh3wcmcpci0ik"
     }
   ],
   "transactions": [
-    {
-      "account_id": "1",
-      "created_at": "2019-09-15 10:24:02",
-      "id": "1",
-      "name": "Кредит",
-      "sum": 5000,
-      "type": "expense",
-      "user_id": "1"
-    },
-    {
-      "account_id": "1",
-      "created_at": "2019-09-17 15:53:02",
-      "id": "2",
-      "name": "Баланс на дебетовке",
-      "sum": 3200,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "1",
-      "created_at": "2019-09-19 20:12:02",
-      "id": "3",
-      "name": "Копилка",
-      "sum": 1500,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-26 16:23:02",
-      "id": "4",
-      "name": "Молочные продукты",
-      "sum": 100,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-25 15:03:02",
-      "id": "5",
-      "name": "Фрукты",
-      "sum": 250,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-25 15:03:02",
-      "id": "17",
-      "name": "Овощи",
-      "sum": 300,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-26 14:47:02",
-      "id": "6",
-      "name": "Мясо",
-      "sum": 600,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-27 13:27:02",
-      "id": "7",
-      "name": "Долг в банк",
-      "sum": 5000,
-      "type": "expense",
-      "user_id": "1"
-    },
-    {
-      "account_id": "3",
-      "created_at": "2017-10-15 13:27:02",
-      "id": "9",
-      "name": "На банду",
-      "sum": 15000,
-      "type": "expense",
-      "user_id": "1"
-    },
     {
       "account_id": "3",
       "created_at": "2017-09-17 13:27:02",
@@ -159,6 +73,24 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "8d0rgh9pkmcpcj4j4",
+      "type": "income",
+      "name": "123",
+      "sum": 10000,
+      "account_id": "8d0rgh3wcmcpci0ik",
+      "user_id": "1",
+      "created_at": "2025-07-04T21:48:20.271Z"
+    },
+    {
+      "id": "8d0rgh3lsmcpcjh92",
+      "type": "expense",
+      "name": "demo",
+      "sum": 123,
+      "account_id": "8d0rgh3wcmcpci0ik",
+      "user_id": "1",
+      "created_at": "2025-07-04T21:48:36.757Z"
     }
   ]
 }
